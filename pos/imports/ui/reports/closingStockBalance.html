@@ -1,0 +1,118 @@
+<template name="Pos_closingStockReport">
+    <div class="panel-group" id="accordion1">
+        <div class="panel panel-default">
+            <div class="panel-heading no-print">
+                <h5 class="panel-title">
+                    <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion1"
+                       href="#accordion1_1">ចុចទីនេះដើម្បីបង្ហាញឬលាក់ Form</a>
+                </h5>
+            </div>
+            <div id="accordion1_1" class="no-print panel-collapse collapse in">
+                <div class="panel-body">
+                    <div class="container-fluid">
+                        <div class="inbox-head report-header">
+                            {{#autoForm schema=schema id='closingStockReport'}}
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        {{> afQuickField name="asDate" value=startDate label= 'As Date'}}
+                                    </div>
+
+                                    <div class="col-md-3">
+                                        {{> afQuickField name="items" label= 'Item'}}
+                                    </div>
+                                    <div class="col-md-3">
+                                        {{> afQuickField name="branchId" label="Branch"}}
+                                    </div>
+                                </div>
+                                <button class="btn btn-primary"><i class="fa fa-play" aria-hidden="true"></i> Run
+                                </button>
+                                <a class="btn btn-default print"><i class="fa fa-print" aria-hidden="true"></i>
+                                    Print</a>
+                            {{/autoForm}}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {{>closingStockReportData}}
+        </div>
+    </div>
+</template>
+
+<template name="closingStockReportData">
+    <div class="container-fluid">
+        {{#with company}}
+            <div class="col-xs-12">
+                <h4 class="text-center text-aqua">{{khName}}</h4>
+                <h5 class="text-center">CLOSING STOCK REPORT</h5>
+            </div>
+        {{/with}}
+        <div class="row">
+            <div class="col-xs-12">
+                <hr>
+                <div class="row">
+                    <div class="col-xs-3">
+                        <small class="">
+                            <strong>Date:</strong>
+                            {{data.title.date}}<br>
+                            <strong>Branch:</strong>
+                            {{data.title.branch.khName}}
+                        </small>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <table class="table table-striped" style="border: 1px solid #ddd !important;">
+            <thead class="rpt-header">
+            <tr class="border-ddd">
+                <th rowspan="2" style="vertical-align: middle;">លរ</th>
+                <th rowspan="2" style="vertical-align: middle;">មុខទំនិញ</th>
+                <th rowspan="2" style="text-align: center;vertical-align: middle;">ដើមគ្រា</th>
+
+                <th colspan="6" style="text-align: center">ស្តុកចូល</th>
+                <th colspan="5" style="text-align: center">ស្តុកចេញ</th>
+
+                <th rowspan="2" style="text-align: center;vertical-align: middle;">ក្នុងឃ្លាំង</th>
+            </tr>
+            <tr class="border-ddd">
+                <th style="text-align: center">ទិញចូល</th>
+                <th style="text-align: center">សង</th>
+                <th style="text-align: center">កក់មុន</th>
+                <th style="text-align: center">ក្រវិល</th>
+                <th style="text-align: center">បន្ថែម</th>
+                <th style="text-align: center">សរុប</th>
+                <th style="text-align: center">ក្រុមហ៊ុនខ្ចី</th>
+                <th style="text-align: center">លក់ចេញ</th>
+                <th style="text-align: center">ប្តូរក្រវិល</th>
+                <th style="text-align: center">បង្វិល</th>
+                <th style="text-align: center">សរុប</th>
+
+            </tr>
+            </thead>
+            <tbody class="rpt-body">
+            {{#with data}}
+                {{#each content}}
+                    <tr class="border-ddd">
+                        <td>{{no @index}}</td>
+                        <td>{{itemDoc.name}}</td>
+                        <td style="text-align: right">{{notZero balance}}</td>
+                        <td style="text-align: right">{{notZero enterBill}}</td>
+                        <td style="text-align: right">{{notZero receiveLendingStock}}</td>
+                        <td style="text-align: right">{{notZero receivePrepaidOrder}}</td>
+                        <td style="text-align: right">{{notZero receiveCompanyExchangeRingPull}}</td>
+                        <td style="text-align: right">{{notZero transferIn}}</td>
+                        <td style="text-align: right">{{notZero qtyIn}}</td>
+                        <td style="text-align: right">{{notZero lendingStock}}</td>
+                        <td style="text-align: right">{{notZero invoice}}</td>
+                        <td style="text-align: right">{{notZero exchangeRingPull}}</td>
+                        <td style="text-align: right">{{notZero transferOut}}</td>
+                        <td style="text-align: right">{{notZero qtyOut}}</td>
+                        <td style="text-align: right">{{notZero lastBalance}}</td>
+                    </tr>
+                {{/each}}
+            {{/with}}
+            </tbody>
+        </table>
+        {{> ReportSignFooter}}
+    </div>
+</template>

@@ -1,0 +1,179 @@
+<!--Index-->
+<template name="Pos_removeTransaction">
+    <div class="box-body">
+        <div class="row">
+            {{#autoForm schema=schemaName id="remove-transaction-form"}}
+                <div class="col-md-6">
+                    {{> afQuickField name='date'}}
+                    <!-- <div class="form-footer">
+                        <button type="submit" class="btn btn-primary btn-get-transaction"><i
+                                class="fa fa-paper-plane-o"></i> {{_ "form.btnSubmit"}}</button>
+                        <button type="reset" class="btn btn-default"><i class="fa fa-refresh"></i> {{_ "form.btnReset"}}
+                        </button>
+                    </div>-->
+                </div>
+            {{/autoForm}}
+            <div class="col-md-2">
+                <div class="form-group">
+                    <label for="btn">Get Transactions</label><br>
+                    <button class="btn btn-primary btn-get-transaction"><i
+                            class="fa fa-paper-plane-o"></i> {{_ "form.btnSubmit"}}</button>
+                </div>
+
+
+            </div>
+            <div class="col-md-4">
+                <button class="btn btn-danger remove-all-transaction btn-xlarge" style=""> Remove All Transactions</button>
+            </div>
+
+            <!-- <div class="col-md-6">
+                 <div class="input-group date">
+                     <input type="text" class="form-control transaction-date" >
+                     <div class="input-group-addon">
+                         <span class="glyphicon glyphicon-th"></span>
+                     </div>
+                 </div>
+             </div>
+             <div class="col-md-6">
+                 <button class="btn btn-primary" id="get-transaction">Get Transactions</button>
+             </div>-->
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <table class="table table-bordered">
+                    {{#with transaction}}
+                        <thead>
+
+                        <tr>
+                            <td>ID</td>
+                            <td>Customer/Vendor Name</td>
+                            <td>Date</td>
+                            <td>BranchId</td>
+                            <!--<td>Transaction Name</td>-->
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {{#if invoices}}
+
+                            <tr style="background-color: #3b5998; color: #ffffff;font-size: 16px;">
+                                <th colspan="5" style="text-align: center">Invoice</th>
+                            </tr>
+                            {{#each invoices}}
+                                <tr>
+                                    <td>{{_id}}</td>
+                                    <td>{{_customer.name}}</td>
+                                    <td>{{moFormat invoiceDate 'DD-MM-YYYY'}}</td>
+                                    <td>{{branchId}}</td>
+                                    <!--<td>{{numFormat  total '0,0.00'}}</td>-->
+                                    <!--<td>Invoice</td>-->
+                                </tr>
+                            {{/each}}
+                        {{/if}}
+                        {{#if enterBills}}
+                            <tr style="background-color: #3b5998; color: #ffffff;font-size: 16px;">
+                                <th colspan="5" style="text-align: center">EnterBill</th>
+                            </tr>
+                            {{#each enterBills}}
+                                <tr>
+                                    <td>{{_id}}</td>
+                                    <td>{{_vendor.name}}</td>
+                                    <td>{{moFormat enterBillDate 'DD-MM-YYYY'}}</td>
+                                    <td>{{branchId}}</td>
+                                    <!--<td>{{numFormat total '0,0.00'}}</td>-->
+                                    <!--<td>Enter Bill</td>-->
+                                </tr>
+                            {{/each}}
+                        {{/if}}
+                        {{#if lendingStocks}}
+                            <tr style="background-color: #3b5998; color: #ffffff;font-size: 16px;">
+                                <th colspan="5" style="text-align: center">Lending Stock</th>
+                            </tr>
+                            {{#each lendingStocks}}
+                                <tr>
+                                    <td>{{_id}}</td>
+                                    <td>{{_vendor.name}}</td>
+                                    <td>{{moFormat lendingStockDate 'DD-MM-YYYY'}}</td>
+                                    <td>{{branchId}}</td>
+                                    <!--<td>{{numFormat total '0,0.00'}}</td>-->
+                                    <!--<td>Lending Stock</td>-->
+                                </tr>
+                            {{/each}}
+                        {{/if}}
+                        {{#if locationTransfers}}
+                            <tr style="background-color: #3b5998; color: #ffffff;font-size: 16px;">
+                                <th colspan="5" style="text-align: center">Location Transfer</th>
+                            </tr>
+                            {{#each locationTransfers}}
+                                <tr>
+                                    <td>{{_id}}</td>
+                                    <td></td>
+                                    <td>{{moFormat locationTransferDate 'DD-MM-YYYY'}}</td>
+                                    <td>From: {{fromBranchId}} - To: {{toBranchId}}</td>
+                                    <!--<td>{{numFormat total '0,0.00'}}</td>-->
+                                </tr>
+                            {{/each}}
+                        {{/if}}
+
+                        {{#if exchangeRingPulls}}
+                            <tr style="background-color: #3b5998; color: #ffffff;font-size: 16px;">
+                                <th colspan="5" style="text-align: center">Exchange Ring Pull</th>
+                            </tr>
+                            {{#each exchangeRingPulls}}
+                                <tr>
+                                    <td>{{_id}}</td>
+                                    <td>{{_customer.name}}</td>
+                                    <td>{{moFormat exchangeRingPullDate 'DD-MM-YYYY'}}</td>
+                                    <td>{{branchId}}</td>
+                                    <!--<td>{{numFormat total '0,0.00'}}</td>-->
+                                </tr>
+                            {{/each}}
+                        {{/if}}
+                        {{#if receiveItems}}
+                            <tr style="background-color: #3b5998; color: #ffffff;font-size: 16px;">
+                                <th colspan="5" style="text-align: center">Receive Item</th>
+                            </tr>
+                            {{#each receiveItems}}
+                                <tr>
+                                    <td>{{_id}}</td>
+                                    <td>{{_vendor.name}}</td>
+                                    <td>{{moFormat receiveItemDate 'DD-MM-YYYY'}}</td>
+                                    <td>{{branchId}}</td>
+                                    <!--<td>{{numFormat total '0,0.00'}}</td>-->
+                                </tr>
+                            {{/each}}
+                        {{/if}}
+                        {{#if receivePayments}}
+                            <tr style="background-color: #3b5998; color: #ffffff;font-size: 16px;">
+                                <th colspan="5" style="text-align: center">Receive Payment</th>
+                            </tr>
+                            {{#each receivePayments}}
+                                <tr>
+                                    <td>{{_id}}</td>
+                                    <td>{{_customer.name}}</td>
+                                    <td>{{moFormat paymentDate 'DD-MM-YYYY'}}</td>
+                                    <td>{{branchId}}</td>
+                                    <!--<td>{{numFormat total '0,0.00'}}</td>-->
+                                </tr>
+                            {{/each}}
+                        {{/if}}
+                        {{#if payBills}}
+                            <tr style="background-color: #3b5998; color: #ffffff;font-size: 16px;">
+                                <th colspan="5" style="text-align: center">Pay Bill</th>
+                            </tr>
+                            {{#each payBills}}
+                                <tr>
+                                    <td>{{_id}}</td>
+                                    <td>{{_vendor.name}}</td>
+                                    <td>{{moFormat paymentDate 'DD-MM-YYYY'}}</td>
+                                    <td>{{branchId}}</td>
+                                    <!--<td>{{numFormat total '0,0.00'}}</td>-->
+                                </tr>
+                            {{/each}}
+                        {{/if}}
+                        </tbody>
+                    {{/with}}
+                </table>
+            </div>
+        </div>
+    </div>
+</template>

@@ -1,0 +1,213 @@
+<!--Index-->
+<template name="Pos_convertItem">
+    <div class="box-header with-border">
+        <h3 class="box-title">
+            {{> addNewButton}}
+        </h3>
+    </div>
+    <div class="box-body">
+        {{> tabular table=tabularTable selector=selector class="table table-striped table-bordered table-condensed"}}
+    </div>
+</template>
+
+<!--Action-->
+<template name="Pos_convertItemAction">
+    {{#columnAction}}
+        <!--<li><a class="js-update"><i class="fa fa-pencil"></i> {{_ "action.edit"}}</a></li>-->
+        <li><a class="js-destroy"><i class="fa fa-remove"></i> {{_ "action.delete"}}</a></li>
+        <li><a class="js-display"><i class="fa fa-eye"></i> {{_ "action.show"}}</a></li>
+        <!--<li role="separator" class="divider"></li>-->
+        <!--<li><a href="/pos/customer/{{customerId}}/receive-payment/{{_id}}"><i class="fa fa-money"></i> Receive-->
+        <!--Payment</a></li>-->
+        <!--<li><a class="js-convertItem"><i class="fa fa-print"></i> {{_ "pos.order.convertItemAction"}}</a></li>-->
+    {{/columnAction}}
+</template>
+
+<!--Insert-->
+<template name="Pos_convertItemNew">
+    <div class="box-body">
+        {{#autoForm collection=collection id="Pos_convertItemNew" type="insert"}}
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">Convert Item</div>
+                        <div class="panel-body">
+                            {{> afQuickField name="cash"}}
+                            {{> afQuickField name="convertItemDate"}}
+                            {{> afQuickField name="stockLocationId"}}
+                            {{> afQuickField type="hidden" name="branchId" value=currentBranch}}
+                            {{> afQuickField name="des"}}
+
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-8">
+                    <div class="col-md-12 well">
+                        <!--Item Temporary-->
+                        {{> Pos_convertItemItems itemsCollection=itemsCollection}}
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12 pull-right">
+                            <!--{{> formFooterWithButton}}-->
+                            {{#formFooter}}
+                                <button type="submit"
+                                        class="btn btn-primary save-exchange-ring-pull" {{disabledSubmitBtn}}>
+                                    <i class="fa fa-floppy-o"></i> {{_ "form.btnSave"}}
+                                </button>
+                                <button type="reset" class="btn btn-default reset-button">
+                                    <i class="fa fa-refresh"></i> {{_ "form.btnReset"}}
+                                </button>
+                            {{/formFooter}}
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        {{/autoForm}}
+    </div>
+</template>
+
+<!--Update-->
+<template name="Pos_convertItemEdit">
+    <div class="box-body">
+
+        {{#autoForm collection=collection id="Pos_convertItemUpdate" doc=data type="update"}}
+
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">Convert Item</div>
+                        <div class="panel-body">
+                            {{> afQuickField name="cash"}}
+                            {{> afQuickField name="convertItemDate" value=convertItemDate}}
+                            {{> afQuickField name="stockLocationId"}}
+                            {{> afQuickField type="hidden" name="branchId" value=currentBranch}}
+                            {{> afQuickField name="des"}}
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-8">
+                    <div class="col-md-12 well">
+                        <!--Item Temporary-->
+                        {{> Pos_convertItemItems itemsCollection=itemsCollection}}
+                    </div>
+                    {{closeSwal}}
+                    <!-- closing swal -->
+                    <div class="row">
+                        <div class="col-sm-12 pull-right">
+                            <!--{{> formFooterWithButton}}-->
+                            {{#formFooter}}
+                                <button type="submit" class="btn btn-primary" {{disabledSubmitBtn}}>
+                                    <i class="fa fa-floppy-o"></i> {{_ "form.btnSave"}}
+                                </button>
+                                <button type="reset" class="btn btn-default">
+                                    <i class="fa fa-refresh"></i> {{_ "form.btnReset"}}
+                                </button>
+                            {{/formFooter}}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {{/autoForm}}
+    </div>
+</template>
+
+<!--Show-->
+<template name="Pos_convertItemShow">
+    <div class="box-body">
+        <div class="container-fluid">
+            <div class="col-md-2 pull-left">
+                <br>
+                <a class="print-convertItem-show btn btn-primary"><i class="fa fa-print"></i>Print</a>
+            </div>
+        </div>
+        <div class="container" id="to-print">
+            <div class="row">
+                {{#with company}}
+                    <div class="col-xs-12">
+                        <h3 class="text-center">{{khName}}</h3>
+                        <h4 class="text-center">{{enName}}</h4>
+                        <h5 class="text-center">{{khAddress}}</h5>
+                        <h5 class="text-center"><i class="fa fa-phone-square"></i> {{telephone}}</h5>
+                        <br>
+                    </div>
+                {{/with}}
+                <div class="col-xs-12">
+                    <div class="row">
+                        <div class="col-xs-6 pull-left">
+                            <h2>Convert Item</h2>
+                        </div>
+                        <div class="col-xs-6 pull-left">
+                            <h3 class="pull-right">#{{_id}}</h3>
+                        </div>
+                    </div>
+                    <hr>
+
+                    <div class="row">
+                        <div class="col-md-4" style="padding: 10px;">
+                            <span><strong>Cash: </strong>${{numFormat cash '0,0.00'}}</span><br>
+                            <span><strong>Convert Date: </strong>{{moFormat convertItemDate 'YYYY-MM-DD HH:mm:ss'}}</span><br>
+                            <span><strong>Status: </strong>{{{colorizeStatus status}}}
+                                </span><br>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="">
+                        <div class="">
+                            <h3><strong>ITEMS SUMMARY</strong></h3>
+                            <hr>
+                        </div>
+                        <div class="">
+                            <div class="table-responsive">
+                                <table class="table table-condensed">
+                                    <thead>
+                                    <tr>
+                                        <td><strong>From Item</strong></td>
+                                        <td><strong>To Item</strong></td>
+                                        <td class="text-center"><strong>Qty</strong></td>
+                                        <td class="text-center"><strong>Get Qty</strong></td>
+                                        <td class="text-right"><strong>From Price</strong></td>
+                                        <td class="text-right"><strong>To Price</strong></td>
+                                        <td class="text-right"><strong>From Amount</strong></td>
+                                        <td class="text-right"><strong>To Amount</strong></td>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <!-- foreach ($order->lineItems as $line) or some such thing here -->
+                                    {{#each item in items}}
+                                        <tr>
+                                            <td><a href="#">{{item.fromItemName}}</a></td>
+                                            <td><a href="#">{{item.toItemName}}</a></td>
+                                            <td class="text-center">{{item.qty}}</td>
+                                            <td class="text-center">{{item.getQty}}</td>
+                                            <td class="text-right">${{numFormat item.fromItemPrice '0,0.00'}}</td>
+                                            <td class="text-right">${{numFormat item.toItemPrice '0,0.00'}}</td>
+                                            <td class="text-right">${{numFormat item.fromItemAmount '0,0.00'}}</td>
+                                            <td class="text-right">${{numFormat item.toItemAmount '0,0.00'}}</td>
+                                        </tr>
+                                    {{/each}}
+                                    <tr>
+                                        <td class="no-line"></td>
+                                        <td class="no-line"></td>
+                                        <td class="no-line"></td>
+                                        <td class="no-line"></td>
+                                        <td class="no-line"></td>
+                                        <td class="no-line">Total:</td>
+                                        <td class="no-line text-right">${{numFormat fromItemTotal '0,0.00'}}</td>
+                                        <td class="no-line text-right">${{numFormat toItemTotal '0,0.00'}}</td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</template>
